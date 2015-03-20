@@ -1,0 +1,25 @@
+{
+  "name": "twitterrss",
+  "version": "0.1.0",
+  "description": "A Twitter retweet bot & RSS webserver",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "twit": "^1.1.20"
+  },
+  "engines": {
+    "node": "0.10.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/clockworksimon/twitterrss.git"
+  },
+  "keywords": [
+    "node",
+    "heroku",
+    "twit"
+  ],
+  "author": "clockworksimon"
+}
