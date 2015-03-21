@@ -96,6 +96,9 @@ function cacheStatusForRSS(data) {
                     if (iPos > 0) {
                         iPos++;
                         mType = m.media_url.substring(iPos, m.media_url.length);
+                        if (mType.toLowerCase().trim() == 'jpg') {
+                            mType = 'jpeg';
+                        }
                     }
                     tMedia = { url: mUrl, type: mType };
                 }
