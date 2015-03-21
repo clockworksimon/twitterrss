@@ -149,7 +149,7 @@ http.createServer(function (req, res) {
         sOut = 'Hello World\n';
       } else {
         var sHead = '<?xml version="1.0" encoding="utf-8"?>\n<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">\n  <channel>\n';
-        sHead += '    <title>Twitter RSS Feed for ' + BotData.Handle + '</title>\n    <link>https://twitter.com/' + BotData.Handle.replace('@', '') + '</link>\n
+        sHead += '    <title>Twitter RSS Feed for ' + BotData.Handle + '</title>\n    <link>https://twitter.com/' + BotData.Handle.replace('@', '') + '</link>\n';
         sHead += '    <description>Coffee tweets from select awesome people.</description>\n';
         sHead += '    <atom:link href="https://desolate-inlet-3463.herokuapp.com/" rel="self" type="application/rss+xml" />\n';
         sOut = sHead + sOut + '  </channel>\n</rss>\n';
