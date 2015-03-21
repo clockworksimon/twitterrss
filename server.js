@@ -58,53 +58,45 @@ function DoWork() {
     }
 }
 
-function cacheStatusForRSS(data) {
-    if (typeof data.retweeted_status.user.screen_name == 'undefined') {
-        var tnMedia = null;
-        if (typeof data.entities != 'undefined' && typeof data.entities.media != 'undefined') {
-            if (data.entities.media.length > 0) {
-                var m = data.entities.media[0];
-                if (m.type = 'photo') {
-                    var mUrl = m.media_url;
-                    var iPos = m.media_url.lastIndexOf('.');
-                    var mType = '';
-                    if (iPos > 0) {
-                        iPos++;
-                        mType = m.media_url.substring(iPos, m.media_url.length);
-                    }
-                    tnMedia = { url: mUrl, type: mType };
+function SetMedia(data) {
+    var tnMedia = null;
+    var dt = null;
+    if (typeof data.retweeted_status.entities.media != 'undefined') {
+        dt = data.retweeted_status;
+      } else if (typeof data.entities.media != 'undefined') {
+        dt = data;
+    }
+    
+    if (dt != null && dt.entities.media.length > 0) {
+        var m = dt.entities.media[0];
+        if (m.type = 'photo') {
+            var mUrl = m.media_url;
+            var iPos = m.media_url.lastIndexOf('.');
+            var mType = '';
+            if (iPos > 0) {
+                iPos++;
+                mType = m.media_url.substring(iPos, m.media_url.length);
+                if (mType.toLowerCase().trim() == 'jpg') {
+                    mType = 'jpeg';
                 }
             }
+            tnMedia = { url: mUrl, type: mType };
         }
-    
+    }
+    return tnMedia;
+}
+
+function cacheStatusForRSS(data) {
+    var tMedia = SetMedia(data);
+    if (typeof data.retweeted_status.user.screen_name == 'undefined') {
         RSSData.push({
             id_str          : data.id_str,
             by_screen_name  : data.user.screen_name,
             created_at      : data.created_at,
             text            : data.text,
-            photo           : tnMedia
+            photo           : tMedia
         });
       } else {
-        var tMedia = null;
-        if (typeof data.retweeted_status.entities != 'undefined' && typeof data.retweeted_status.entities.media != 'undefined') {
-            if (data.retweeted_status.entities.media.length > 0) {
-                var m = data.retweeted_status.entities.media[0];
-                if (m.type = 'photo') {
-                    var mUrl = m.media_url;
-                    var iPos = m.media_url.lastIndexOf('.');
-                    var mType = '';
-                    if (iPos > 0) {
-                        iPos++;
-                        mType = m.media_url.substring(iPos, m.media_url.length);
-                        if (mType.toLowerCase().trim() == 'jpg') {
-                            mType = 'jpeg';
-                        }
-                    }
-                    tMedia = { url: mUrl, type: mType };
-                }
-            }
-        }
-      
         RSSData.push({
             id_str          : data.retweeted_status.id_str,
             by_screen_name  : data.retweeted_status.user.screen_name,
