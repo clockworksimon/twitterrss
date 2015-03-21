@@ -127,7 +127,7 @@ setInterval(DoWork, 60000);
 var running_port = process.env.PORT || 1337;
 var http = require('http');
 http.createServer(function (req, res) {
-    res.writeHead(200, {'Content-Type': 'text/plain'});
+    res.writeHead(200, {'Content-Type': 'application/rss+xml'});
     var sOut = '';
     
     RSSData.sort(sortRssFeed);
