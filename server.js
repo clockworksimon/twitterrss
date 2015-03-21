@@ -64,14 +64,34 @@ function cacheStatusForRSS(data) {
             id_str          : data.id_str,
             by_screen_name  : data.user.screen_name,
             created_at      : data.created_at,
-            text            : data.text
+            text            : data.text,
+            photo           : null
         });
       } else {
+      
+        var tMedia = null;
+        if (typeof data.retweeted_status.entities != 'undefined' && typeof data.retweeted_status.entities.media != 'undefined') {
+            if (data.retweeted_status.entities.media.length > 0) {
+                var m = data.retweeted_status.entities.media[0];
+                if (m.type = 'photo') {
+                    var mUrl = m.media_url;
+                    var iPos = m.media_url.lastIndexOf('.');
+                    var mType = '';
+                    if (iPos > 0) {
+                        iPos++;
+                        mType = m.media_url.substring(iPos, m.media_url.length);
+                    }
+                    tMedia = { url: mUrl, type: mType };
+                }
+            }
+        }
+      
         RSSData.push({
             id_str          : data.retweeted_status.id_str,
             by_screen_name  : data.retweeted_status.user.screen_name,
             created_at      : data.retweeted_status.created_at,
-            text            : data.retweeted_status.text
+            text            : data.retweeted_status.text,
+            photo           : tMedia
         });
     }
 }
@@ -104,8 +124,7 @@ var RSSData = [];
 DoWork();
 setInterval(DoWork, 60000);
 
-
-
+var running_port = process.env.PORT || 1337;
 var http = require('http');
 http.createServer(function (req, res) {
     res.writeHead(200, {'Content-Type': 'text/plain'});
@@ -120,6 +139,9 @@ http.createServer(function (req, res) {
         sOut += ' <link>https://twitter.com/' + r.by_screen_name + '/status/' + r.id_str + '</link>\n';
         sOut += ' <description>' + r.text + '</description>\n';
         sOut += ' <guid>https://twitter.com/' + r.by_screen_name + '/status/' + r.id_str + '</guid>\n';
+        if (typeof r.photo != 'undefined' && r.photo != null) {
+            sOut += ' <enclosure url="' + r.photo.url + '" type="image/' + r.photo.type + '" length="123" />\n'
+        }
         sOut += ' </item>\n';
     }
     
@@ -128,9 +150,8 @@ http.createServer(function (req, res) {
       } else {
         var sHead = '<?xml version="1.0" encoding="utf-8"?>\n <rss version="2.0">\n <channel>\n';
         sHead += ' <title>Twitter RSS Feed for ' + BotData.Handle + '</title>\n <link>https://twitter.com/' + BotData.Handle.replace('@', '') + '</link>\n <description>Coffee tweets from select awesome people.</description>';
- 
         sOut = sHead + sOut + ' </channel>\n </rss>\n';
     }
     res.end(sOut);
-}).listen(process.env.PORT || 1337);
-console.log('Server running on port: ' + process.env.PORT);
+}).listen(running_port);
+console.log('Server running on port: ' + running_port);
