@@ -85,7 +85,12 @@ function sortRssFeed(a,b) {
 }
 
 var Twit = require('twit');
-var TwitConfig = require('./conf');
+var TwitConfig = {
+    consumer_key        : process.env.CONSKEY,
+    consumer_secret     : process.env.CONSSKRT,
+    access_token        : process.env.ACCTOK,
+    access_token_secret : process.env.ACCTOKSKRT
+};
 var T = new Twit(TwitConfig);
 
 var BotData = {
