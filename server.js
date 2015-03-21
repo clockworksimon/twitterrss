@@ -60,15 +60,31 @@ function DoWork() {
 
 function cacheStatusForRSS(data) {
     if (typeof data.retweeted_status.user.screen_name == 'undefined') {
+        var tnMedia = null;
+        if (typeof data.entities != 'undefined' && typeof data.entities.media != 'undefined') {
+            if (data.entities.media.length > 0) {
+                var m = data.entities.media[0];
+                if (m.type = 'photo') {
+                    var mUrl = m.media_url;
+                    var iPos = m.media_url.lastIndexOf('.');
+                    var mType = '';
+                    if (iPos > 0) {
+                        iPos++;
+                        mType = m.media_url.substring(iPos, m.media_url.length);
+                    }
+                    tnMedia = { url: mUrl, type: mType };
+                }
+            }
+        }
+    
         RSSData.push({
             id_str          : data.id_str,
             by_screen_name  : data.user.screen_name,
             created_at      : data.created_at,
             text            : data.text,
-            photo           : null
+            photo           : tnMedia
         });
       } else {
-      
         var tMedia = null;
         if (typeof data.retweeted_status.entities != 'undefined' && typeof data.retweeted_status.entities.media != 'undefined') {
             if (data.retweeted_status.entities.media.length > 0) {
