@@ -135,14 +135,14 @@ http.createServer(function (req, res) {
     for (var i=0; i < RSSData.length; i++) {
         var r = RSSData[i];
         sOut += '    <item>\n'
-        sOut += '    <title>@' + r.by_screen_name + ' on ' + r.created_at + '</title>\n';
-        sOut += '    <link>https://twitter.com/' + r.by_screen_name + '/status/' + r.id_str + '</link>\n';
-        sOut += '    <description>' + r.text + '</description>\n';
-        sOut += '    <guid>https://twitter.com/' + r.by_screen_name + '/status/' + r.id_str + '</guid>\n';
+        sOut += '        <title>@' + r.by_screen_name + ' on ' + r.created_at + '</title>\n';
+        sOut += '        <link>https://twitter.com/' + r.by_screen_name + '/status/' + r.id_str + '</link>\n';
+        sOut += '        <description>' + r.text + '</description>\n';
+        sOut += '        <guid>https://twitter.com/' + r.by_screen_name + '/status/' + r.id_str + '</guid>\n';
         if (typeof r.photo != 'undefined' && r.photo != null) {
-            sOut += '    <enclosure url="' + r.photo.url + '" type="image/' + r.photo.type + '" length="123" />\n'
+            sOut += '        <enclosure url="' + r.photo.url + '" type="image/' + r.photo.type + '" length="123" />\n'
         }
-        sOut += ' </item>\n';
+        sOut += '    </item>\n';
     }
     
     if (sOut == '') {
