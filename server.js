@@ -213,7 +213,7 @@ http.createServer(function (req, res) {
             sOut += '      div.tbody { padding: 6px; background-color: #DEDEDE; border-left: 1px #BDBDBD solid; border-right: 1px #BDBDBD solid; }\n';
             sOut += '      div.tbody img { padding-top: 8px; }\n';
             sOut += '      div.tfoot { padding: 6px; background-color: #CECECE; border: 1px #BDBDBD solid; font-size: 80%; }\n';
-            sOut += '      @media screen and (min-width: 10px) and (max-width: 450px) {\n        body { margin: 0; padding: 0; }\n        div#cbody { width: 90%; margin-left: auto; margin-right: auto; }\n        }\n';
+            sOut += '      @media screen and (min-width: 10px) and (max-width: 450px) {\n        body { margin: 0; padding: 0; }\n        div#cbody { width: 98%; margin-left: auto; margin-right: auto; }\n        }\n';
             sOut += '    </style>\n';
             sOut += '</head>\n';
             sOut += '<body>\n<h1>@CoffeeRSS Bot</h1>\n';
